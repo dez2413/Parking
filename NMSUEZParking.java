@@ -25,7 +25,9 @@ public class NMSUEZParking {
             } else if (newUserResponse.equalsIgnoreCase("no")) {
                 // Returning user login
                 String aggieID = loginUser(scanner, userDatabase);
-                if (aggieID != null) {
+                if (aggieID == "back") {
+                    System.out.println();
+                } else if (aggieID != null) {
                     System.out.println("Welcome back!");
                     // After successful login, show the user menu
                     showUserMenu(scanner, userDatabase, aggieID);
@@ -186,7 +188,7 @@ public class NMSUEZParking {
             System.out.print("Please enter your Aggie ID, or type 'back' to return to the main menu: ");
             aggieID = scanner.nextLine().trim();
             if (aggieID.equalsIgnoreCase("back")) {
-                return null; // Go back to the main menu
+                return "back"; // Go back to the main menu
             }
             if (!aggieID.matches("\\d{9}")) {
                 System.out.println("Invalid input. Aggie ID must be 9 digits long. Please try again.");
@@ -194,7 +196,7 @@ public class NMSUEZParking {
         } while (!aggieID.matches("\\d{9}") && !aggieID.equalsIgnoreCase("back"));
 
         if (aggieID.equalsIgnoreCase("back")) {
-            return null; // Go back to the main menu
+            return "back"; // Go back to the main menu
         }
 
         User user = userDatabase.get(aggieID);
