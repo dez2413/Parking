@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+// Start of main NMSUEZParking
 public class NMSUEZParking {
-    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Map<String, User> userDatabase = new HashMap<>();
@@ -16,7 +16,7 @@ public class NMSUEZParking {
 
         while (true) {
             // Prompting the user for action
-            System.out.println("\nAre you a new user? (yes/no)");
+            System.out.println("Are you a new user? (yes/no)");
             String newUserResponse = scanner.nextLine().trim();
 
             if (newUserResponse.equalsIgnoreCase("yes")) {
@@ -25,8 +25,8 @@ public class NMSUEZParking {
             } else if (newUserResponse.equalsIgnoreCase("no")) {
                 // Returning user login
                 String aggieID = loginUser(scanner, userDatabase);
-                if (aggieID.equals("back")) {
-                    System.out.println();
+                if (aggieID == "back") {
+                     System.out.println();
                 } else if (aggieID != null) {
                     System.out.println("Welcome back!");
                     // After successful login, show the user menu
@@ -95,7 +95,7 @@ public class NMSUEZParking {
                 System.out.println("Invalid input. Aggie ID must be 9 digits long. Please try again.");
             } else if (userDatabase.containsKey(aggieID)) {
                 User existingUser = userDatabase.get(aggieID);
-                System.out.println("User with this Aggie ID is already registered:");
+                System.out.println("User with this Aggie ID is already been registered:");
                 String response;
                 do {
                     System.out.print("Do you want to register again? (yes/no): ");
@@ -110,10 +110,10 @@ public class NMSUEZParking {
                     fullName = existingUser.getFullName();
                     hasParkingPermit = existingUser.hasParkingPermit();
                     parkingPermitType = existingUser.getParkingPermitType();
-                    break; // Break the do-while loop if the user confirms identity
+                    break; // Break the do-while loop if user confirms identity
                 }
             } else {
-                break; // If the ID is new and valid, break the loop to proceed with registration
+                break; // If ID is new and valid, break the loop to proceed with registration
             }
         } while (true);
 
@@ -127,67 +127,56 @@ public class NMSUEZParking {
                 permitResponse = scanner.nextLine().trim();
                 if (!permitResponse.equalsIgnoreCase("yes") && !permitResponse.equalsIgnoreCase("no")) {
                     System.out.println("Sorry, invalid input. Please try again.");
-                } else if (permitResponse.equalsIgnoreCase("yes")) {
-                    hasParkingPermit = true;
-                    int permitChoice;
-                    do {
-                        System.out.println("Which parking permit do you have?");
-                        System.out.println("1. Commuter Student Permit (Green)");
-                        System.out.println("2. North Residential Student Parking (Yellow)");
-                        System.out.println("3. Faculty/Staff Parking (Maroon)");
-                        System.out.print("Enter the number corresponding to your parking permit: ");
-                        try {
-                            permitChoice = Integer.parseInt(scanner.nextLine().trim());
-                            if (permitChoice >= 1 && permitChoice <= 3) {
-                                switch (permitChoice) {
-                                    case 1:
-                                        parkingPermitType = "Commuter Permit (Green)";
-                                        break;
-                                    case 2:
-                                        parkingPermitType = "North Residential Parking (Yellow)";
-                                        break;
-                                    case 3:
-                                        parkingPermitType = "Faculty Parking (Maroon)";
-                                        break;
-                                }
-
-                                // Input data into .txt file
-                                userDatabase.put(aggieID, new User(fullName, hasParkingPermit, parkingPermitType));
-                                saveUserData(userDatabase);
-
-                                // After successful registration, show the user menu
-                                showUserMenu(scanner, userDatabase, aggieID);
-                                return;
-                            } else {
-                                System.out.println("Invalid choice. Please select a valid option.");
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Sorry, invalid input. Please enter a number.");
-                        }
-                    } while (true);
                 } else {
-                    System.out.println("\nPlease visit the Parking Department to get a Parking Permit.");
-                    System.out.println("Parking Department Phone Number: 575-646-2133");
-                    System.out.println("Parking Department Location: 1400 E University Ave, Las Cruces, NM 88001");
-                    // Prompt user for further action
-                    System.out.println("\nWhat would you like to do next?");
-                    System.out.println("1. Return to Main Menu");
-                    System.out.println("2. Register with Parking Permit");
-                    System.out.print("Please select an option (1-2): ");
-                    String actionChoice = scanner.nextLine().trim();
-                    switch (actionChoice) {
-                        case "1":
-                            return; // Return to the main menu
-                        case "2":
-                            // Continue with the registration process
-                            break;
-                        default:
-                            System.out.println("Invalid option. Returning to the main menu.");
-                            return; // Return to the main menu
-                    }
+                    break; // Break the loop only if a valid response ("yes" or "no") is given
                 }
             } while (true);
+
+            if (permitResponse.equalsIgnoreCase("yes")) {
+                hasParkingPermit = true;
+                int permitChoice;
+                do {
+                    System.out.println("Which parking permit do you have?");
+                    System.out.println("1. Commuter Student Permit (Green)");
+                    System.out.println("2. North Residential Student Parking (Yellow)");
+                    System.out.println("3. Faculty/Staff Parking (Maroon)");
+                    System.out.print("Enter the number corresponding to your parking permit: ");
+                    try {
+                        permitChoice = Integer.parseInt(scanner.nextLine().trim());
+                        if (permitChoice >= 1 && permitChoice <= 3) {
+                            switch (permitChoice) {
+                                case 1:
+                                    parkingPermitType = "Commuter Permit (Green)";
+                                    break;
+                                case 2:
+                                    parkingPermitType = "North Residential Parking (Yellow)";
+                                    break;
+                                case 3:
+                                    parkingPermitType = "Faculty Parking (Maroon)";
+                                    break;
+                            }
+
+                            // Input data into .txt file
+                            userDatabase.put(aggieID, new User(fullName, hasParkingPermit, parkingPermitType));
+                            saveUserData(userDatabase);
+
+                            break; // Valid permit choice made, exit the loop
+                        } else {
+                            System.out.println("Invalid choice. Please select a valid option.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Sorry, invalid input. Please enter a number.");
+                    }
+                } while (true);
+            } else {
+                hasParkingPermit = false;
+                System.out.println("Please visit the Parking Department to get a Parking Permit.");
+                System.out.println("Parking Department Phone Number: 575-646-2133");
+                System.out.println("Parking Department Location: 1400 E University Ave, Las Cruces, NM 88001");
+            }
         }
+        // After successful registration, show the user menu
+        showUserMenu(scanner, userDatabase, aggieID);
     }
 
     // Method for loginUser
@@ -274,7 +263,7 @@ public class NMSUEZParking {
                     System.out.println("Exiting to main menu...");
                     return;
                 default:
-                    System.out.println("Invalid option. Please select a number between 1 and 4.");
+                    System.out.println("Invalid option. Please select a number between 1 and 5.");
                     break;
             }
         }
@@ -284,22 +273,22 @@ public class NMSUEZParking {
     private static void reportParking(Scanner scanner, Map<String, User> userDatabase, String aggieID) {
         System.out.println("\nReporting Parking...");
 
-        // Prompt the user for details about the vehicle 
-        System.out.println("Please provide details of the vehicle to report: ");
-        System.out.print("Make of the vehicle: ");
+        // Prompt the user for details about the vehicle
+        System.out.println("Please provide details of the vehicle to report:");
+        System.out.print("Make: ");
         String make = scanner.nextLine();
-        System.out.print("Model of the vehicle: ");
+        System.out.print("Model: ");
         String model = scanner.nextLine();
-        System.out.print("Color of the vehicle: ");
+        System.out.print("Color: ");
         String color = scanner.nextLine();
-        System.out.print("Parking lot the vehicle is located: ");
+        System.out.print("Parking Lot: ");
         String parkingLot = scanner.nextLine();
         System.out.print("Reason for report: ");
         String reason = scanner.nextLine();
-        
+
         // Save the report details to a file (for parking department to review)
         saveReport(make, model, color, parkingLot, reason);
-        System.out.println("Thank you for reporting, we will handle the situation.");
+        System.out.println("Thank you for reporting. We will handle the situation.");
     }
 
     // Method to save report
