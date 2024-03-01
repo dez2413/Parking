@@ -258,8 +258,8 @@ public class NMSUEZParking {
                     System.out.println("Searching for Parking...");
                     break;
                 case "4":
-                    // Implement the report parking code here:
-                    System.out.println("Reporting parking...");
+                    // Call the reportParking method
+                    reportParking(scanner, userDatabase, aggieID);
                     break;
                 case "5":
                     System.out.println("Exiting to main menu...");
@@ -270,4 +270,35 @@ public class NMSUEZParking {
             }
         }
     }
+
+    // Methd to report parking
+    private static void reportParking(Scanner scanner, Map<String, User> userDatabase, String aggieID) {
+        System.out.println("\nReporting Parking...");
+
+        // Prompt the user for details about the vehicle 
+        System.out.println("Please provide details of the vehicle to report: ");
+        System.out.print("Make of the vehicle: ");
+        String make = scanner.nextLine();
+        System.out.print("Model of the vehicle: ");
+        String model = scanner.nextLine();
+        System.out.print("Color of the vehicle: ");
+        String color = scanner.nextLine();
+        System.out.print("Parking lot the vehicle is located: ");
+        String parkingLot = scanner.nextLine();
+        System.out.print("Reason for report: ");
+        String reason = scanner.nextLine();
+        
+        // Save the report details to a file (for parking department to review)
+        saveReport(make, model, color, parkingLot, reason);
+        System.out.println("Thank you for reporting, we will handle the situation.");
+    }
+
+    // Method to save report
+    private static void saveReport(String make, String model, String color, String parkingLot, String reason) {
+    try (PrintWriter writer = new PrintWriter(new FileWriter("report_data.txt", true))) {
+        writer.println(make + "," + model + "," + color + "," + parkingLot + "," + reason);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+  }
 } // End of Main
