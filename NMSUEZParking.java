@@ -578,13 +578,13 @@ public class NMSUEZParking {
 
         // Prompt the user for details about the vehicle
         System.out.println("Please provide details of the vehicle to report:");
-        System.out.print("Make: ");
+        System.out.print("Make of the vehicle: ");
         String make = scanner.nextLine();
-        System.out.print("Model: ");
+        System.out.print("Model of the vehicle: ");
         String model = scanner.nextLine();
-        System.out.print("Color: ");
+        System.out.print("Color of the vehicle: ");
         String color = scanner.nextLine();
-        System.out.print("Parking Lot: ");
+        System.out.print("Parking Lot the vehicle is located in: ");
         String parkingLot = scanner.nextLine();
         System.out.print("Reason for report: ");
         String reason = scanner.nextLine();
