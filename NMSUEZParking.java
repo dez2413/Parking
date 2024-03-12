@@ -1,8 +1,3 @@
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-
 // Start of main NMSUEZParking
 public class NMSUEZParking {
     public static void main(String[] args) {
